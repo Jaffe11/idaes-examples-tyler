@@ -225,7 +225,7 @@ class NgccFlowsheetData(FlowsheetBlockData):
             self.config.time, initialize=0.0, units=pyo.units.kg / pyo.units.s
         )
         self.cap_specific_compression_power = pyo.Var(
-            initialize=0.2748e6, units=pyo.units.J / pyo.units.kg
+            initialize=0, units=pyo.units.J / pyo.units.kg
         )
         self.cap_additional_reboiler_duty = pyo.Var(
             self.config.time, initialize=0.0, units=pyo.units.W
