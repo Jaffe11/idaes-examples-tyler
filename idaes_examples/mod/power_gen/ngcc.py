@@ -44,6 +44,7 @@ class NgccFlowsheetData(FlowsheetBlockData):
         self._add_constraints()
         self._scaling_guess()
         self._add_tags()
+        self._fix_variables()
 
     def _add_tags(self):
         tag_group = iutil.ModelTagGroup()
@@ -207,7 +208,9 @@ class NgccFlowsheetData(FlowsheetBlockData):
             destination=self.hrsg.mixer1.Preheater,
         )
         pyo.TransformationFactory("network.expand_arcs").apply_to(self)
-
+    def _fix_variables(self):
+        self.st.reboiler.control_volume.properties_in[0].flow_mol.fix(0)
+        self.st.reboiler.control_volume.properties_out[0].flow_mol.fix(0)
     def _add_constraints(self):
         cost_base.register_idaes_currency_units()
 
