@@ -239,9 +239,7 @@ class NgccFlowsheetData(FlowsheetBlockData):
         self.lp_steam_temperature = pyo.Var(
             self.config.time, initialize=554.0, units=pyo.units.K
         )
-        # Fixing the rebioler to zero to rmeove the carbon capture system
-        self.st.reboiler.control_volume.properties_in[:].flow_mol.fix(0)
-        self.st.reboiler.control_volume.properties_out[:].flow_mol.fix(0)
+
         @self.fg_translate.Constraint(self.time, self.hrsg.prop_gas.component_list)
         def mol_frac_eqn(b, t, i):
             return (
