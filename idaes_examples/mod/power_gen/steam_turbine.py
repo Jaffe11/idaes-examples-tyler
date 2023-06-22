@@ -57,6 +57,7 @@ class SteamTurbineFlowsheetData(FlowsheetBlockData):
         self._set_initial_inputs()
         self._add_tags()
         self._set_scaling()
+        self._fix_varibles()
 
     def _add_models(self):
         self.steam_turbine = helm.HelmTurbineMultistage(
@@ -114,7 +115,9 @@ class SteamTurbineFlowsheetData(FlowsheetBlockData):
             doc="Carbon capture system reboiler",
             property_package=self.prop_water,
         )
-
+    def _fix_varibles(self):
+        self.reboiler.control_volume.properties_in.flow_mol.fix(0)
+        self.reboiler.control_volume.properties_out.flow_mol.fix(0)
     def _add_constraints(self):
         # The mixer for LP steam from Turbine and HRSG is assumed to be at turbine P
         @self.steam_turbine_lp_mix.Constraint(self.time)
